@@ -280,6 +280,11 @@
       animation: animINP 5s linear infinite, animBTN 5s linear infinite;
     }
 
+    .input-field::placeholder {
+      color: cyan;
+      font-size: 30px; /* 原15px的两倍 */
+    }
+
     .submit-btn {
       width: 85%;
       padding: 20px 60px; /* 原padding的两倍 */
@@ -509,6 +514,37 @@
         .button:hover .tooltip {
           display: block;
         }
+        .login-time {
+  font-size: 24px; /* 适当调整字体大小 */
+  color: #ffd700; /* 设置字体颜色 */
+  text-align: center;
+  position: fixed; /* 使用fixed定位 */
+  top: 20px; /* 距离顶部20px */
+  left: 60px; /* 距离左侧20px */
+  transform: translateX(-50%); /* 向左移动自身宽度的50%，以实现水平居中 */
+  z-index: 1000; /* 确保时间显示在其他内容之上 */
+  background: rgba(0, 0, 0, 0.2); /* 添加半透明背景 */
+  padding: 10px 20px; /* 添加内边距 */
+  border-radius: 15px; /* 添加圆角边框 */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* 添加阴影效果 */
+  font-family: 'Open Sans', sans-serif; /* 使用在线字体 */
+}
+
+.time-prefix {
+  margin-right: 8px;
+  font-weight: bold; /* 加粗前缀 */
+  color: #ffffff; /* 前缀颜色 */
+}
+
+/* 添加动画效果 */
+@keyframes fadeInOut {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.login-time {
+  animation: fadeInOut 2s infinite; /* 应用动画效果 */
+}
   </style>
 
   <script>
@@ -518,6 +554,10 @@
 </head>
 
 <body translate="no">
+  <div class="login-time" id="login-time">
+    <span class="time-prefix">当前时间：</span>
+  <span class="time-value"></span>
+  </div>
   <div class="red-rectangle"></div> <!-- 添加的白色毛玻璃长方形 -->
   <div class="red-square"> <!-- 添加的白色圆角正方形 -->
     <img id="slider" class="image-slide" src="图片/6.jpeg" alt="Slider Image">
@@ -526,15 +566,15 @@
     <div class="main-box">
       <div class="form-box">
         <form id="register" class="input-group" onsubmit="return registerUser()">
-          <input type="text" class="input-field" placeholder="User" id="registerUsername" required>
-          <input type="password" class="input-field" placeholder="Password" id="registerPassword" required>
-          <input type="submit" class="submit-btn" value="Register">
+          <input type="text" class="input-field" placeholder="用户名" id="registerUsername" required>
+          <input type="password" class="input-field" placeholder="密码" id="registerPassword" required>
+          <input type="submit" class="submit-btn" value="注册">
         </form>
         <div id="after"></div>
         <div class="button-box">
           <div id="btn"></div>
-          <button id="log" type="button" class="toggle-btn" onclick="login()">Log in</button>
-          <button id="reg" type="button" class="toggle-btn" onclick="register()">Register</button>
+          <button id="log" type="button" class="toggle-btn" onclick="login()">登录</button>
+          <button id="reg" type="button" class="toggle-btn" onclick="register()">注册</button>
         </div>
         <div class="social-icons">
           <a class="button" href="#" onclick="showPopup('ideal')">
@@ -551,9 +591,9 @@
           </a>
         </div>
         <form id="login" class="input-group" onsubmit="return validateLogin(event)">
-          <input type="text" class="input-field" placeholder="User" required>
-          <input id="pwd" type="Password" class="input-field" placeholder="Password" required>
-          <input type="submit" class="submit-btn" value="Log in">
+          <input type="text" class="input-field" placeholder="用户名" required>
+          <input id="pwd" type="Password" class="input-field" placeholder="密码" required>
+          <input type="submit" class="submit-btn" value="登录">
         </form>
         <form id="register" class="input-group">
           <input type="text" class="input-field" placeholder="User" required>
@@ -816,6 +856,16 @@ function registerUser() {
   // 显示注册成功消息或进行其他操作
   alert("注册成功！");
 }
+function updateTime() {
+  const now = new Date(); // 获取当前时间
+  const timeStr = now.toLocaleTimeString(); // 将时间格式化为本地时间字符串
+  document.getElementById('login-time').textContent = timeStr; // 更新页面上的时间显示
+}
+
+// 初始化时间更新
+updateTime();
+// 每秒更新时间
+setInterval(updateTime, 1000);
 </script>
 
 </html>
